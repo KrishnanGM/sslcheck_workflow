@@ -8,9 +8,7 @@ on:
 jobs:
   check_ssl_expiry:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: /home/ec2-user/sslcheck_workflow
+    
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
