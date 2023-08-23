@@ -1,8 +1,7 @@
 ---
 name: SSL Expiry Status
 on:
-  workflow_dispatch: null
-  schedule:
+ schedule:
     - cron: "0 0 * * *"
 jobs:
   check_ssl_expiry:
@@ -15,6 +14,6 @@ jobs:
       - name: Run SSL check script
         run: |
           chmod +x ssl_check.sh
-          ./"ssl_check.sh"
+          ./ssl_check.sh
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
