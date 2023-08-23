@@ -21,6 +21,7 @@ send_slack_alert() {
 }
 
 while IFS= read -r domain || [[ -n "$domain" ]]; do
+  echo "Processing domain: $domain"
   check_ssl_expiry "$domain"
 done < "domains.txt"
 
