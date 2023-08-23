@@ -5,8 +5,6 @@ import socket
 import datetime
 import pytz
 from dateutil import parser
-import os
-import sys
 
 def get_ssl_expiry(domain):
     context = ssl.create_default_context()
@@ -15,7 +13,8 @@ def get_ssl_expiry(domain):
     cert = conn.getpeercert()
     return cert['notAfter']
 
-def send_slack_notification(domain, days_left, slack_webhook):
+def send_slack_notification(domain, days_left):
+    slack_webhook = "https://hooks.slack.com/services/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"  # Replace with your actual webhook URL
     message = f"SSL Expiry Alert\n* Domain : {domain}\n* Warning : The SSL certificate for {domain} will expire in {days_left} days."
     payload = {
         "text": message
@@ -24,11 +23,8 @@ def send_slack_notification(domain, days_left, slack_webhook):
     return response.status_code == 200
 
 def main():
-    with open("domains.txt") as file:
+    with open("/home/ec2-user/sslcheck_workflow/domains.txt") as file:
         domains = [line.strip() for line in file.readlines()]
-
-        slack_webhook = sys.argv[1]
-
 
     for domain in domains:
         expiry_date_str = get_ssl_expiry(domain)
@@ -37,7 +33,8 @@ def main():
         days_left = (expiry_date - current_date).days
 
         if days_left < 365:  # Customize the warning threshold as needed
-            send_slack_notification(domain, days_left, slack_webhook)
+            send_slack_notification(domain, days_left)
 
 if __name__ == "__main__":
     main()
+

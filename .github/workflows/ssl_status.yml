@@ -3,7 +3,7 @@ name: SSL Expiry Check
 on:
   workflow_dispatch: # Manual trigger
   schedule:
-    - cron: '*/2 * * * *' # Daily automatic trigger at midnight UTC
+    - cron: '*/2 * * * *' # Daily automatic trigger
 
 jobs:
   check_ssl_expiry:
@@ -25,6 +25,4 @@ jobs:
 
       - name: SSL Expiry Check
         run: |
-          python /home/ec2-user/sslcheck_workflow/ssl_check.py ${{ secrets.SLACK_WEBHOOK }}
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          python /home/ec2-user/sslcheck_workflow/ssl_check.py
