@@ -4,10 +4,7 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "*/2 * * * *"
-  workflow_run:
-    workflows: ["SSL Expiry Status"]
-    types:
-      - completed
+
 jobs:
   check_ssl_expiry:
     runs-on: ubuntu-latest
