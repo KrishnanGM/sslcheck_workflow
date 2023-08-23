@@ -1,12 +1,11 @@
 #!/bin/bash
 
-
 check_ssl_expiry() {
   domain="$1"
-  expiry_date=$(openssl s_client -servername $domain -connect $domain:443 2>/dev/null | openssl x509 -noout -enddate | cut -d= -f2)
+  expiry_date=$(openssl s_client -servername "$domain" -connect "$domain":443 2>/dev/null | openssl x509 -noout -enddate | cut -d= -f2)
   remaining_days=$(( ($(date -d "$expiry_date" +%s) - $(date +%s)) / 86400 ))
 
-  if [ $remaining_days -lt 200 ]; then
+  if [ "$remaining_days" -lt 200 ]; then
     send_slack_alert "$domain" "$remaining_days"
   fi
 }
@@ -18,13 +17,10 @@ send_slack_alert() {
 
   curl -X POST -H 'Content-type: application/json' --data "{
     \"text\": \"$message\"
-  }" $SLACK_WEBHOOK_URL
+  }" "$SLACK_WEBHOOK_URL"
 }
 
-
-IFS=$'\n' read -d '' -r -a domains < domains.txt
-
-for domain in "${domains[@]}"; do
+while IFS= read -r domain || [[ -n "$domain" ]]; do
   check_ssl_expiry "$domain"
-done
+done < "domains.txt"
 

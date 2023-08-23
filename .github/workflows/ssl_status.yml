@@ -5,6 +5,7 @@ on:
   schedule:
     - cron: "*/2 * * * *"
 
+
 jobs:
   check_ssl_expiry:
     runs-on: ubuntu-latest
@@ -12,13 +13,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
+      - name: Set up Bash
+        shell: bash
 
       - name: Run SSL check script
-        run: bash ssl_check.sh
+        run: |
+          chmod +x ssl_check.sh
+          ./"ssl_check.sh"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
