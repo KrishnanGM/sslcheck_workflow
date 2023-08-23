@@ -1,28 +1,25 @@
+---
 name: SSL Expiry Check
-
 on:
-  workflow_dispatch: # Manual trigger
+  workflow_dispatch: null
   schedule:
-    - cron: '0/5 * * * *' # Every 5 minutes
-
+    - cron: 0/5 * * * *
 jobs:
   check_ssl_expiry:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
           python-version: 3.9
-
+      - name: Navigate to Script Directory
+        run: cd /home/ec2-user/sslcheck_workflow
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install requests pytz
-
       - name: SSL Expiry Check
         run: |
-          python /home/ec2-user/sslcheck_workflow/ssl_check.py
+          python ssl_check.py
