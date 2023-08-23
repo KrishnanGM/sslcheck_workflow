@@ -5,7 +5,9 @@ check_ssl_expiry() {
   expiry_date=$(openssl s_client -servername "$domain" -connect "$domain":443 2>/dev/null | openssl x509 -noout -enddate | cut -d= -f2)
   remaining_days=$(( ($(date -d "$expiry_date" +%s) - $(date +%s)) / 86400 ))
 
-  if [ "$remaining_days" -lt 200 ]; then
+  echo "Domain: $domain, Expiry Date: $expiry_date, Remaining Days: $remaining_days"
+
+  if [ "$remaining_days" -lt 210 ]; then
     send_slack_alert "$domain" "$remaining_days"
   fi
 }
@@ -21,7 +23,9 @@ send_slack_alert() {
 }
 
 while IFS= read -r domain || [[ -n "$domain" ]]; do
-  echo "Processing domain: $domain"
-  check_ssl_expiry "$domain"
-done < "domains.txt"
+  if [ -n "$domain" ]; then
+    echo "Processing domain: $domain"
+    check_ssl_expiry "$domain"
+  fi
+done < "$(dirname "$0")/domains.txt"
 

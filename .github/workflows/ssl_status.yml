@@ -3,7 +3,7 @@ name: SSL Expiry Status
 on:
   workflow_dispatch: null
   schedule:
-    - cron: "*/2 * * * *"
+    - cron: "0 0 * * *"
 jobs:
   check_ssl_expiry:
     runs-on: ubuntu-latest
