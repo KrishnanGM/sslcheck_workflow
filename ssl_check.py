@@ -14,7 +14,7 @@ def get_ssl_expiry(domain):
     return cert['notAfter']
 
 def send_slack_notification(domain, days_left):
-    slack_webhook = "https://hooks.slack.com/services/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"  # Replace with your actual webhook URL
+    slack_webhook = "https://hooks.slack.com/services/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"  # Replace with your actual webhook URL
     message = f"SSL Expiry Alert\n* Domain : {domain}\n* Warning : The SSL certificate for {domain} will expire in {days_left} days."
     payload = {
         "text": message
