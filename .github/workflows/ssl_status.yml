@@ -3,7 +3,7 @@ name: SSL Expiry Check
 on:
   workflow_dispatch: # Manual trigger
   schedule:
-    - cron: '*/2 * * * *' # Daily automatic trigger
+    - cron: '0/10 * * * *' # Daily automatic trigger
 
 jobs:
   check_ssl_expiry:
