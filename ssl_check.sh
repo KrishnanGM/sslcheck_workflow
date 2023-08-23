@@ -1,6 +1,5 @@
 #!/bin/bash
 
-SLACK_WEBHOOK_URL="${SLACK_WEBHOOK_URL}"
 
 check_ssl_expiry() {
   domain="$1"
