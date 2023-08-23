@@ -1,5 +1,8 @@
 #!/bin/bash
 
+set -x
+set -e
+
 check_ssl_expiry() {
   domain="$1"
   expiry_date=$(openssl s_client -servername "$domain" -connect "$domain":443 2>/dev/null | openssl x509 -noout -enddate | cut -d= -f2)
@@ -7,7 +10,7 @@ check_ssl_expiry() {
 
   echo "Domain: $domain, Expiry Date: $expiry_date, Remaining Days: $remaining_days"
 
-  if [ "$remaining_days" -lt 210 ]; then
+  if [ "$remaining_days" -lt 365 ]; then
     send_slack_alert "$domain" "$remaining_days"
   fi
 }
