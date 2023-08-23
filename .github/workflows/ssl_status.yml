@@ -8,7 +8,6 @@ on:
 jobs:
   check_ssl_expiry:
     runs-on: ubuntu-latest
-    
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -17,9 +16,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-
-      - name: Install dependencies
-        run: npm install
 
       - name: Run SSL check script
         run: bash ssl_check.sh
