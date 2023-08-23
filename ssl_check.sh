@@ -19,7 +19,7 @@ send_slack_alert() {
 
   curl -X POST -H 'Content-type: application/json' --data "{
     \"text\": \"$message\"
-  }" "$SLACK_WEBHOOK_"
+  }" "$SLACK_WEBHOOK_URL"
 }
 
 while IFS= read -r domain || [[ -n "$domain" ]]; do
