@@ -25,6 +25,6 @@ jobs:
 
       - name: SSL Expiry Check
         run: |
-          python .github/scripts/ssl_check.py ${{ secrets.SLACK_WEBHOOK }}
+          python /home/ec2-user/sslcheck_workflow/ssl_check.py ${{ secrets.SLACK_WEBHOOK }}
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
