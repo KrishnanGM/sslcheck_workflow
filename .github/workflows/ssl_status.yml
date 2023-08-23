@@ -25,4 +25,4 @@ jobs:
 
       - name: SSL Expiry Check
         run: |
-          python /home/ec2-user/sslcheck_workflow/ssl_check.py
+          python sslcheck_workflow/ssl_check.py
