@@ -1,21 +1,17 @@
+---
 name: SSL Expiry Status
-
 on:
-  workflow_dispatch:
+  workflow_dispatch: null
   schedule:
     - cron: "*/2 * * * *"
-
-
 jobs:
   check_ssl_expiry:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
       - name: Set up Bash
         shell: bash
-
       - name: Run SSL check script
         run: |
           chmod +x ssl_check.sh
