@@ -1,18 +1,30 @@
-name: SSL Expiry Status
+name: SSL Expiry Check
+
 on:
+  workflow_dispatch: # Manual trigger
   schedule:
-    - cron: 0 0 * * *
+    - cron: '*/2 * * * *' # Daily automatic trigger at midnight UTC
+
 jobs:
   check_ssl_expiry:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
+      - name: Checkout Repository
         uses: actions/checkout@v3
-      - name: Set up Bash
-        shell: bash
-      - name: Run SSL check script
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.9
+
+      - name: Install Dependencies
         run: |
-          chmod +x ssl_check.sh
-          ./ssl_check.sh
+          python -m pip install --upgrade pip
+          pip install requests pytz
+
+      - name: SSL Expiry Check
+        run: |
+          python .github/scripts/ssl_check.py ${{ secrets.SLACK_WEBHOOK }}
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
