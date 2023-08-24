@@ -1,0 +1,40 @@
+name: SSL Expiry Check
+
+on:
+  push:
+    branches:
+      - main  # Change this to the appropriate branch name
+
+jobs:
+  ssl_expiry_check:
+    runs-on: ubuntu-latest  # You can change this to other Linux-based runners if needed
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.9  # Choose the Python version you want to use
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt  # If you have any additional requirements
+
+      - name: Run script
+        run: python sslcheck_workflow/ssl_check.py  # Update the path to your Python script
+
+      - name: Send Slack notification
+        run: |
+          slack_webhook="https://hooks.slack.com/services/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"
+          message="SSL Expiry Alert\n* Domain : google.com\n* Warning : The SSL certificate for google.com will expire in X days."
+          payload="{\"text\": \"$message\"}"
+          response=$(curl -X POST -H "Content-type: application/json" --data "$payload" "$slack_webhook")
+          if [ "$response" == "ok" ]; then
+            echo "Slack notification sent successfully"
+          else
+            echo "Failed to send Slack notification"
+          fi
+
