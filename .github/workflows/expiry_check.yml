@@ -21,10 +21,11 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-      
+          pip install -r sslcheck_workflow/requirements.txt
+
       - name: Run script
         run: python expiry.py  # Update the path to your Python script
-
+        
       - name: Send Slack notification
         run: |
           slack_webhook="https://hooks.slack.com/services/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"
