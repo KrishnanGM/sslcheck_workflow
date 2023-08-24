@@ -23,7 +23,7 @@ jobs:
           python -m pip install --upgrade pip
       
       - name: Run script
-        run: python sslcheck_workflow/expiry.py  # Update the path to your Python script
+        run: python expiry.py  # Update the path to your Python script
 
       - name: Send Slack notification
         run: |
